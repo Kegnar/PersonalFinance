@@ -6,7 +6,6 @@
 #include <conio.h>
 
 void start();
-
 // прототипы перегрузок цветной печати
 inline std::ostream& blue(std::ostream& s);
 inline std::ostream& red(std::ostream& s);
@@ -21,68 +20,36 @@ std::basic_ostream<_Elem, _Traits>&
 operator<<(std::basic_ostream<_Elem, _Traits>& i, color& c);
 
 // перевод курсора в заданную позицию
-void gotoXY(int x, int y) {
-	COORD pos = { x, y };
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(hStdOut, pos);
-}
+void gotoXY(int x, int y);
 
 // прячет или показывает курсор
-void ConsoleCursorVisible(bool show)
+void ConsoleCursorVisible(bool show);
+
+//отлавливает клавиши
+char keyPress();
+
+// класс, отвечающий за менюшки 
+class Menu
 {
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO structCursorInfo;
-	GetConsoleCursorInfo(hStdOut, &structCursorInfo);
-	structCursorInfo.bVisible = show; // изменяем видимость курсора
-	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
-}
-char keyPress()
+	std::vector<std::string> menu_list{};		//элементы меню
+	int coord_x{};								// координаты левого верхнего угла
+	int coord_y{};
+	int menu_ptr{};								// индекс курсора
+public:
+	Menu() = delete;
+	Menu(const std::vector<std::string>& menu_list, int coord_x = 0, int coord_y = 0, int menu_ptr = 0);
+	void show();
+	int getCoordX()const;
+	int getCoordY()const;
+	Menu& setCoords(int, int);
+	Menu& setMenuItems(const std::vector<std::string>&);
+	Menu& setMenuPointer(int menu_ptr);
+};
+
+//класс для финансов
+class Bank  
 {
-	char ch;
-	ch = _getch();
-	if (ch == -32) ch = _getch(); // Отлавливаем стрелочки. Как выяснилось, коды стрелок двухбайтовые, а нам нужен второй
-	return ch;
-}
 
-void menu(int coord_x, int coord_y, string* menu, int menu_size, int& menu_ptr)
-{
-
-	system("cls");
-
-	ConsoleCursorVisible(false);
-	while (true)
-	{
-		gotoXY(coord_x, coord_y);
-		for (int i = 0; i < menu_size; i++)
-		{
-			gotoXY(coord_x, coord_y + i);
-			if (i == menu_ptr)
-			{
-				cout << invert_white;
-			}
-			else
-			{
-				cout << white;
-			}
-
-			cout << ' ' << menu[i] << ' ' << white;
-
-		}
-		char keyPressed = keyPress();
-		switch (keyPressed)
-		{
-		case UP:
-			menu_ptr--;
-			if (menu_ptr < 0) menu_ptr = menu_size - 1;
-			break;
-		case DOWN:
-			menu_ptr++;
-			if (menu_ptr == menu_size) menu_ptr = 0;
-			break;
-		case ENTER:
-			return;
-		}
-
-	}
-}
+public:
+	
 };

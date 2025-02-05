@@ -1,3 +1,6 @@
 ﻿#include "Header.h"
-void start(){
+
+void start()
+{
+
 }
