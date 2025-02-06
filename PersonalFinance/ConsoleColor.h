@@ -1,6 +1,9 @@
-#include "Header.h"
+#pragma once
+#include <iostream>
+#include <windows.h>
 
 // управление выводом цвета в консоль посредством конструкции cout << %цвет% << "текст"
+
 
 inline std::ostream& blue(std::ostream& s)
 {
@@ -9,6 +12,7 @@ inline std::ostream& blue(std::ostream& s)
         | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
     return s;
 }
+
 inline std::ostream& red(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -16,6 +20,7 @@ inline std::ostream& red(std::ostream& s)
         FOREGROUND_RED | FOREGROUND_INTENSITY);
     return s;
 }
+
 inline std::ostream& green(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -23,6 +28,7 @@ inline std::ostream& green(std::ostream& s)
         FOREGROUND_GREEN | FOREGROUND_INTENSITY);
     return s;
 }
+
 inline std::ostream& yellow(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -30,6 +36,7 @@ inline std::ostream& yellow(std::ostream& s)
         FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
     return s;
 }
+
 inline std::ostream& white(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -37,6 +44,7 @@ inline std::ostream& white(std::ostream& s)
         FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     return s;
 }
+
 inline std::ostream& invert_white(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -44,6 +52,7 @@ inline std::ostream& invert_white(std::ostream& s)
         BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED);
     return s;
 }
+
 inline std::ostream& aqua(std::ostream& s)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -51,10 +60,12 @@ inline std::ostream& aqua(std::ostream& s)
         FOREGROUND_GREEN | FOREGROUND_BLUE);
     return s;
 }
+
 struct color {
     color(WORD attribute) :m_color(attribute) {};
     WORD m_color;
 };
+
 template <class _Elem, class _Traits>
 std::basic_ostream<_Elem, _Traits>&
 operator<<(std::basic_ostream<_Elem, _Traits>& i, color& c)

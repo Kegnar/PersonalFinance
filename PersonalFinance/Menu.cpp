@@ -1,4 +1,10 @@
 #include "Header.h"
+#include "Menu.h"
+#include <Windows.h>
+#include <iostream>
+#include <conio.h>
+
+#include "ConsoleColor.h"
 
 enum Key_codes { UP = 72, DOWN = 80, ENTER = 13 };
 
@@ -31,8 +37,9 @@ char keyPress()
 Menu::Menu(const std::vector<std::string>& menu_list, int coord_x, int coord_y, int menu_ptr) :
 	menu_list{ menu_list }, coord_x{ coord_x }, coord_y{ coord_y }, menu_ptr{ menu_ptr } {
 }
-void Menu::show()
+unsigned int Menu::show()
 {
+	menu_list.emplace_back("¬ыход");
 	int menu_size = menu_list.size();
 	ConsoleCursorVisible(false);
 	while (true)
@@ -62,7 +69,10 @@ void Menu::show()
 			if (menu_ptr == menu_size) menu_ptr = 0;
 			break;
 		case ENTER:
-			return;
+			
+			if(menu_ptr == menu_size)
+				menu_list.pop_back(); // удал€ем добавленный пункт "выход" из меню
+			return menu_ptr;
 		}
 
 	}
